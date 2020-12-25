@@ -1,0 +1,6 @@
+.Header{
+    display: flex;
+    padding: var(--min-padding);
+    color: var(--on-background);
+}
+

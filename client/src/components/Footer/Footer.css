@@ -1,0 +1,22 @@
+.Footer {
+  color: var(--on-background);
+  padding: var(--min-padding);
+  text-align: center;
+}
+
+.Footer__nav-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.Footer__nav-item{
+    padding: var(--min-padding);
+}
+
+.Footer__nav-link{
+    color: var(--on-background);
+    text-decoration: none;
+}

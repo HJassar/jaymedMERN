@@ -1,0 +1,64 @@
+.Card {
+  background: var(--surface);
+  color: var(--on-surface);
+  border-radius: 5px;
+  padding: var(--min-padding);
+  margin-bottom: 0.5em;
+  position: relative;
+  transition: 1s;
+}
+
+.Card--unread {
+  background: #e6c07b;
+  color: white;
+}
+
+.Card__tracking-tools {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.Card__tracking-tool {
+  transition: 1s;
+  opacity: 0;
+}
+.Card__tracking-tool--bookmarked {
+  opacity: 1;
+  transform: translateY(-0.5em);
+  color: rgb(182, 0, 0);
+}
+.Card__tracking-tool--unread {
+  opacity: 1;
+  color: var(--background);
+}
+.Card__tracking-tool--unread,
+.Card__tracking-tool--read {
+  transform: scale(0.6) translateY(-3px);
+}
+.Card:hover .Card__tracking-tool {
+  opacity: 0.7;
+}
+.Card:hover .Card__tracking-tool--unread {
+  opacity: 1;
+}
+.Card:hover .Card__tracking-tool--read {
+  opacity: 0.5;
+}
+
+.Card__tracking-tool {
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+.Card__lower-bar {
+  margin-top: 0.5em;
+  display: flex;
+}
+.Card__tools {
+  opacity: 0.4;
+  width: fit-content;
+  flex-grow: 1;
+}
+.Card__level {
+  opacity: 0.4;
+}

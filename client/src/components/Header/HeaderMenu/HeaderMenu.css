@@ -1,0 +1,16 @@
+.Header__menu-list{
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0;
+}
+
+.Header__menu-link{
+    color: var(--on-background);
+    text-decoration: none;
+}
+
+.Header__menu-item{
+    margin-left: 1em;
+}

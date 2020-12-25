@@ -1,0 +1,8 @@
+.Logo {
+  flex-grow: 1;
+}
+
+.Logo__link {
+  color: var(--on-background);
+  text-decoration: none;
+}
