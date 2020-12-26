@@ -10,20 +10,26 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 
-//Models
+
+// Define the routers
+const questionAPI = require('./routes/questions');
+const subjectAPI = require('./routes/subjects');
+const cardAPI = require('./routes/cards');
+
+
+// Models
 const Question = require("./models/question");
 const User = require("./models/user");
-
-
-//Routers
-// const indexRouter = require("./routes/index");
-
 
 // Configuation
 const port = process.env.PORT || 5000;
 const ip = process.env.IP;
 const db = process.env.DATABASEURL || "mongodb://localhost/jaymed-react";
 const environment = process.env.NODE_ENV || "dev";
+
+// Controllers
+const seeds = require('./controllers/seeds');
+seeds();
 
 // Special for Dev Environment
 if (environment == "dev") {
@@ -34,7 +40,6 @@ if (environment == "dev") {
     app.use((req, res, next) => {
         setTimeout(() => {
             loadTime = slowness * 1000 * Math.random();
-            console.log("loaded");
             next();
         }, loadTime);
     });
@@ -62,7 +67,7 @@ mongoose
         console.log("connected to: " + db);
     })
     .catch((err) => {
-        console.log(err.message);
+        console.log(err);
     });
 
 
@@ -87,8 +92,9 @@ app.use((req, res, next) => {
 
 
 // Creating routes
-// app.use(indexRouter);
-// app.use("/questions", questionRouter);
+app.use("/questions", questionAPI);
+app.use("/subjects", subjectAPI);
+app.use("/cards", cardAPI);
 
 
 // Redirect to React in non Dev environment

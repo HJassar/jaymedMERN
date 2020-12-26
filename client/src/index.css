@@ -5,6 +5,7 @@
   --surface: #FFFFFF;
   --on-surface: #000000;
 
+  --border-radius: 5px;
   --min-padding: 10px;
 }
 body {

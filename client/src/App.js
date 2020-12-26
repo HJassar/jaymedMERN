@@ -6,11 +6,15 @@ import Footer from './components/Footer/Footer'
 
 // Services
 import Home from './Services/Home/Home'
+
 import Reading from './Services/Reading/Reading'
+import Subject from './Services/Reading/Subject/Subject'
+
 import Residency from './Services/Residency/Residency'
 import Questions from './Services/Questions/Questions'
 import Contribute from './Services/Contribute/Contribute'
 import Login from './Services/Login/Login'
+
 // Dashboard
 import Dashboard from './Dashboard/Dashboard';
 
@@ -25,7 +29,10 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/questions' component={Questions} />
+
+            <Route path='/reading/:subjectId' component={Subject} />
             <Route path='/reading' component={Reading} />
+            
             <Route path='/residency' component={Residency} />
             <Route path='/contribute' component={Contribute} />
             <Route path='/login' component={Login} />

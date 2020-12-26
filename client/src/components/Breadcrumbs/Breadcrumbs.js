@@ -14,8 +14,11 @@ const Breadcrumbs = ({ breadcrumbs }) => {
         return breadcrumbs.map((breadcrumb, index, array) => {
             return (
                 <>
-                    <a href='#'>{breadcrumb}</a>
-                    {(index < array.length - 1) ? ' > ' : null}
+                    {(index < array.length - 1) ?
+                    <><a href='#'>{breadcrumb}</a> &gt;</>
+                    : 
+                    <strong>{breadcrumb}</strong>
+                    }
                 </>
             )
         })

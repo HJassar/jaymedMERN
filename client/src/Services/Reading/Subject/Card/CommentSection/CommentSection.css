@@ -1,0 +1,17 @@
+.CommentSection{
+    margin-top: 1em;
+    border-top: dashed thin rgba(0,0,0,0.1);
+    padding-top: 0.5em;
+}
+
+.CommentSection h3{
+    margin-bottom: 0.5em;
+}
+
+.Comment{
+    /* border: solid thin black; */
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    padding: var(--min-padding);
+    margin-bottom: .5em;
+}

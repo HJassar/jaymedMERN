@@ -1,25 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark, faCircle, faClock, faComment, faEyeSlash, faGift, faHandHolding, faHandHoldingHeart, faHighlighter, faShare, faShareAlt, faStickyNote, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
 import './Card.css';
 import CommentSection from './CommentSection/CommentSection';
+import axios from 'axios';
 
-const Card = ({ content, title, bookmarkedProp, onBookMark, readProp, onRead, level }) => {
+const Card = ({ cardId }) => {
 
-    const [bookmarked, setBookmarked] = useState(bookmarkedProp)
-    const [read, setRead] = useState(readProp);
+    const [card, setCard] = useState({})
+    const [showCommentSection, setShowCommentSection] = useState(false);
+
+    const [loaded, setLoaded] = useState(false);
+    const [bookmarked, setBookmarked] = useState(false);
+    const [read, setRead] = useState(false);
+
+
+    useEffect(() => {
+        axios
+            .get(`/cards/${cardId}`)
+            .then((res) => {
+                setCard(res.data)
+                setLoaded(true);
+            })
+    }, [])
+
 
 
     // Togglers
     const toggleBookmark = () => {
         setBookmarked(!bookmarked);
-        onBookMark();
+        // onBookMark();
     }
     const toggleRead = () => {
         setRead(!read);
-        onRead();
+        console.log('click')
+        // onRead();
+    }
+    const toggleCommentSection = () => {
+        setShowCommentSection(!showCommentSection);
     }
 
     const TrackingTools = () => {
@@ -41,27 +61,32 @@ const Card = ({ content, title, bookmarkedProp, onBookMark, readProp, onRead, le
                     onClick={() => { toggleBookmark() }}
 
                     icon={faBookmark} />&nbsp;
-                <FontAwesomeIcon
-                    className=
-                    {(read) ?
-                        ['Card__tracking-tool', 'Card__tracking-tool--read'].join(' ') :
-                        ['Card__tracking-tool', 'Card__tracking-tool--unread'].join(' ')
-                    }
-
+                <button
+                    className='Card__button'
                     onClick={() => { toggleRead() }}
-
-                    icon={faCircle} />
+                >
+                    <FontAwesomeIcon
+                        pointerEvents='none'
+                        className=
+                        {(read) ?
+                            ['Card__tracking-tool', 'Card__tracking-tool--read'].join(' ') :
+                            ['Card__tracking-tool', 'Card__tracking-tool--unread'].join(' ')
+                        }
+                        icon={faCircle} />
+                </button>
                 &nbsp;
             </div>
         )
     }
 
-    const Tools = () => {
+    const Tools = ({ onCommentSection }) => {
         return (
             <div class='Card__tools'>
                 <FontAwesomeIcon
                     className='Card__tool'
-                    icon={faComment} />&nbsp;
+                    icon={faComment}
+                    onClick={onCommentSection}
+                /><sub>0</sub>&nbsp;
                 <FontAwesomeIcon
                     className='Card__tool'
                     icon={faThumbsUp} />&nbsp;
@@ -81,21 +106,28 @@ const Card = ({ content, title, bookmarkedProp, onBookMark, readProp, onRead, le
         )
     }
 
-
-
     return (
-        <div className={
-            ['Card', read ? null : 'Card--unread'].join(' ')
-        }>
-            <TrackingTools />
-            <h2>{title}</h2>
-            <p dangerouslySetInnerHTML={{ __html: content }} />
-            <div className='Card__lower-bar' >
-                <Tools />
-                <div className='Card__level'>LVL {level}</div>
+        (!loaded) ?
+            <div className='Card'>
+                loading...
             </div>
-            <CommentSection />
-        </div>
+            :
+            <div className={
+                ['Card', read ? null : 'Card--unread'].join(' ')
+            }>
+                <TrackingTools />
+                <h2>{card.title}</h2>
+                <p dangerouslySetInnerHTML={{ __html: card.content }} />
+                <div className='Card__lower-bar' >
+                    <Tools
+                        onCommentSection={toggleCommentSection}
+                    />
+                    <div className='Card__level'>LVL {card.level}</div>
+                </div>
+                {/* {(showCommentSection) ? <CommentSection
+                    commentIds={commentIds}
+                /> : null} */}
+            </div>
     )
 }
 

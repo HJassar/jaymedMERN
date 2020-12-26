@@ -1,11 +1,20 @@
 .Card {
   background: var(--surface);
   color: var(--on-surface);
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   padding: var(--min-padding);
   margin-bottom: 0.5em;
   position: relative;
   transition: 1s;
+}
+
+.Card__button,
+.Card__button:active{
+  background:none;
+  border:none;
+  outline:none;
+  cursor: pointer;
+  padding:0;
 }
 
 .Card--unread {
@@ -22,6 +31,11 @@
   transition: 1s;
   opacity: 0;
 }
+
+.Card__tracking-tool, .Card__tool{
+    cursor: pointer;
+}
+
 .Card__tracking-tool--bookmarked {
   opacity: 1;
   transform: translateY(-0.5em);
@@ -46,7 +60,6 @@
 }
 
 .Card__tracking-tool {
-  cursor: pointer;
   font-size: 0.8em;
 }
 
@@ -59,6 +72,16 @@
   width: fit-content;
   flex-grow: 1;
 }
+
+.Card__tool{
+    opacity: 1;
+}
+
+
 .Card__level {
   opacity: 0.4;
+}
+
+.active{
+    background:red;
 }
