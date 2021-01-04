@@ -1,0 +1,2 @@
+export const LOAD_ADMIN = 'LOAD_ADMIN';
+export const UPDATE_READ_CARDS = 'UPDATE_READ_CARDS'

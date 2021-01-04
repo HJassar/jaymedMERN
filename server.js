@@ -15,7 +15,9 @@ const localStrategy = require("passport-local");
 const questionAPI = require('./routes/questions');
 const subjectAPI = require('./routes/subjects');
 const cardAPI = require('./routes/cards');
-
+const userAPI = require('./routes/users');
+const adminAPI = require('./routes/admin');
+const authAPI = require('./routes/auth');
 
 // Models
 const Question = require("./models/question");
@@ -92,9 +94,12 @@ app.use((req, res, next) => {
 
 
 // Creating routes
-app.use("/questions", questionAPI);
-app.use("/subjects", subjectAPI);
-app.use("/cards", cardAPI);
+app.use('/questions', questionAPI);
+app.use('/subjects', subjectAPI);
+app.use('/cards', cardAPI);
+app.use('/users', userAPI);
+app.use('/admin', adminAPI);
+app.use('/auth', authAPI)
 
 
 // Redirect to React in non Dev environment

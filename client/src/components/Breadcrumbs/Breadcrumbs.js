@@ -7,17 +7,14 @@ import './Breadcrumbs.css'
 
 
 const Breadcrumbs = ({ breadcrumbs }) => {
-
-    console.log(breadcrumbs)
-
     const Chain = () => {
         return breadcrumbs.map((breadcrumb, index, array) => {
             return (
                 <>
                     {(index < array.length - 1) ?
-                    <><a href='#'>{breadcrumb}</a> &gt;</>
-                    : 
-                    <strong>{breadcrumb}</strong>
+                        <><a href='#'>{breadcrumb}</a> &gt;</>
+                        :
+                        <strong>{breadcrumb}</strong>
                     }
                 </>
             )

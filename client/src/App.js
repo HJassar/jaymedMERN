@@ -14,6 +14,8 @@ import Residency from './Services/Residency/Residency'
 import Questions from './Services/Questions/Questions'
 import Contribute from './Services/Contribute/Contribute'
 import Login from './Services/Login/Login'
+import Register from './Services/Register/Register'
+
 
 // Dashboard
 import Dashboard from './Dashboard/Dashboard';
@@ -36,6 +38,7 @@ const App = () => {
             <Route path='/residency' component={Residency} />
             <Route path='/contribute' component={Contribute} />
             <Route path='/login' component={Login} />
+            <Route path='/register' component={Register} />
             <Route path='/dashboard/:action' component={Dashboard} />
             <Route path='/dashboard' component={Dashboard} />
             <Route path='/' component={() => {

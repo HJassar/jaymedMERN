@@ -1,15 +1,30 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { loadAdmin } from '../../store/loadAdmin/loadAdmin.actions';
+
 import './Login.css';
 
-const Login = () => {
-    document.title = 'JayMed';
-
-const text = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere quibusdam, iure nihil, quam cumque hic eum modi obcaecati mollitia, possimus quos quia dolorum omnis beatae distinctio culpa molestiae amet dicta.'
+const Login = ({ loadAdmin }) => {
+    document.title = 'JayMed | Login';
 
     return (
         <>
-        <h1>Login</h1>
+            <button
+                onClick={() => {
+                    loadAdmin('5fe815ae3bfb4b6e606edbff')
+                    // .then(() => {
+                    // window.location.reload();
+                    // });
+                }}
+
+            >
+                Temporary Button
+                        </button>
+
+            <h1>Login</h1>
             <form action="">
                 <label for='username'>Username or Email</label>
                 <input id='username' type="text" />
@@ -21,4 +36,8 @@ const text = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere qu
     )
 }
 
-export default Login;
+Login.propTypes = {
+    loadAdmin: PropTypes.func.isRequired
+}
+
+export default connect(null, { loadAdmin })(Login);

@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark, faCircle, faClock, faComment, faEyeSlash, faGift, faHandHolding, faHandHoldingHeart, faHighlighter, faShare, faShareAlt, faStickyNote, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
+import { updateReadCards } from '../../../../store/loadAdmin/loadAdmin.actions'
+
+
+
 import './Card.css';
-import CommentSection from './CommentSection/CommentSection';
 import axios from 'axios';
 
-const Card = ({ cardId }) => {
+const Card = ({ cardId, currentUser, updateReadCards }) => {
 
     const [card, setCard] = useState({})
     const [showCommentSection, setShowCommentSection] = useState(false);
 
     const [loaded, setLoaded] = useState(false);
     const [bookmarked, setBookmarked] = useState(false);
-    const [read, setRead] = useState(false);
 
+    const [readCards, setReadCards] = useState(currentUser.readCards || [])
+    const [read, setRead] = useState(
+        currentUser.readCards &&
+        currentUser.readCards.includes(cardId)
+    );
 
     useEffect(() => {
         axios
@@ -26,8 +35,6 @@ const Card = ({ cardId }) => {
             })
     }, [])
 
-
-
     // Togglers
     const toggleBookmark = () => {
         setBookmarked(!bookmarked);
@@ -35,9 +42,17 @@ const Card = ({ cardId }) => {
     }
     const toggleRead = () => {
         setRead(!read);
-        console.log('click')
-        // onRead();
+        axios.get(`/cards/${cardId}?action=read`)
+
+        const sup = [...currentUser.readCards];
+        (sup.includes(cardId)) ?
+            sup.splice(sup.indexOf(cardId), 1) :
+            sup.push(cardId);
+        setReadCards(sup)
+
+        updateReadCards(sup)
     }
+
     const toggleCommentSection = () => {
         setShowCommentSection(!showCommentSection);
     }
@@ -106,6 +121,8 @@ const Card = ({ cardId }) => {
         )
     }
 
+
+
     return (
         (!loaded) ?
             <div className='Card'>
@@ -116,6 +133,7 @@ const Card = ({ cardId }) => {
                 ['Card', read ? null : 'Card--unread'].join(' ')
             }>
                 <TrackingTools />
+                {card._id}
                 <h2>{card.title}</h2>
                 <p dangerouslySetInnerHTML={{ __html: card.content }} />
                 <div className='Card__lower-bar' >
@@ -131,4 +149,18 @@ const Card = ({ cardId }) => {
     )
 }
 
-export default Card;
+
+
+
+const mapStateToProps = state => ({
+    currentUser: state.currentUser.currentUser
+})
+
+Card.propTypes = {
+    updateReadCards: PropTypes.func.isRequired
+}
+
+export default connect(
+    mapStateToProps,
+    { updateReadCards }
+)(Card);

@@ -1,0 +1,9 @@
+.Error {
+  background: rgb(221, 50, 50);
+  text-align: center;
+  padding: var(--min-padding);
+  margin-top: 10px;
+  border-radius: var(--border-radius);
+  width: calc(100% - 2 * var(--min-padding));
+}
+

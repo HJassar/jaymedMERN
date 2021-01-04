@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
 const Subject = require('../models/subject');
+const User = require('../models/user');
+
 
 const cardSeeds = [
     {
@@ -16,6 +18,23 @@ const cardSeeds = [
     {
         title: 'The third Card',
         content: '<strong>Hello</strong> to the third card ever!',
+        level: 2
+    },
+    {
+        title: 'The Fourth Card',
+        content: '<strong>Hello</strong> to the Fourth card ever!',
+        level: 2
+    }, {
+        title: 'The 5th Card',
+        content: '<strong>Hello</strong> to the 5th card ever!',
+        level: 2
+    }, {
+        title: 'The 6th Card',
+        content: '<strong>Hello</strong> to the 6th card ever!',
+        level: 2
+    }, {
+        title: 'The 7th Card',
+        content: '<strong>Hello</strong> to the 7th card ever!',
         level: 2
     }
 ]
@@ -50,13 +69,38 @@ const subjectSeeding = async () => {
     })
 }
 
+const createAdmin = async () => {
+    const adminCards = [];
+
+    await Card.find({}, (err, allCards) => {
+        allCards.map((card, index, array) => {
+            if (index % 2 == 0) {
+                adminCards.push(card._id);
+            }
+
+            if (index == array.length - 1) {
+                User.create({
+                    username: 'admin',
+                    readCards: adminCards
+                }, (err, admin) => {
+                    console.log(admin.username + ' has been created!')
+                })
+            }
+        })
+    })
+
+
+}
+
+
 const seedSubjectsAndCards = () => {
     Subject.countDocuments({}, (err, subjectCount) => {
         if (subjectCount == 0) {
             cardSeeding(() => {
+                createAdmin();
                 subjectSeeding();
             });
-        }else{
+        } else {
             console.log('Subjects already created!')
         }
     })

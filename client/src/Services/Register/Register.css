@@ -1,0 +1,14 @@
+label{
+    color: var(--on-background);
+    padding-left: 2.5px;
+    display: block;
+}
+input{
+    padding: 5px;
+    display: block;
+    width: 100%;
+    height: 3em;
+    margin-bottom: 0.5em;
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+}

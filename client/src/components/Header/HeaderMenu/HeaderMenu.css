@@ -9,8 +9,13 @@
 .Header__menu-link{
     color: var(--on-background);
     text-decoration: none;
+    padding-bottom: .2em;
 }
 
 .Header__menu-item{
     margin-left: 1em;
+}
+
+.currentPath{
+    border-bottom: solid 2px white;
 }

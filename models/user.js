@@ -5,25 +5,20 @@ const userSchema = new mongoose.Schema(
 	{
 		firstName: String,
 		lastName: String,
-		roles: { type: String, default: 'student' },
-		username: {type: String, unique: true},
+		roles: { type: [String], default: ['student'] },
+		username: { type: String, unique: true, required: true },
 		displayName: String,
-		email: {type: String, unique: true},
+		email: { type: String, unique: true, required: true },
 		quizzes: [
 			{
-				quizId: {
 					type: mongoose.Schema.Types.ObjectId,
 					ref: "Quiz"
-				}
 			}
 		],
-		questionsAnswered: [
+		readCards: [
 			{
-				questionId: {
 					type: mongoose.Schema.Types.ObjectId,
-					ref: "Question"
-				}
-
+					ref: "Card"
 			}
 		],
 		avatar: String,
