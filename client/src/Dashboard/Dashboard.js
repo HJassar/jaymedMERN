@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Switch, Link, Redirect } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
 import Breadcrumbs from '../components/Breadcrumbs/Breadcrumbs';
 
-
-const Dashboard = (props) => {
-    const action = props.match.params.action;
-
+const Dashboard = ({ match, username }) => {
+    const action = match.params.action;
 
     const DOM = (action == 'stats') ?
         <h1>Welcome to stats page</h1>
@@ -28,4 +28,8 @@ const Dashboard = (props) => {
     )
 }
 
-export default Dashboard;
+const mapStateToProps = state => ({
+    username: state.currentUser.username
+})
+
+export default connect(mapStateToProps)(Dashboard)

@@ -5,9 +5,9 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark, faCircle, faClock, faComment, faEyeSlash, faGift, faHandHolding, faHandHoldingHeart, faHighlighter, faShare, faShareAlt, faStickyNote, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
-import { updateReadCards } from '../../../../store/loadAdmin/loadAdmin.actions'
+import { updateReadCards } from '../../../../store/currentUser/currentUser.actions'
 
-
+import CommentSection from './CommentSection/CommentSection'
 
 import './Card.css';
 import axios from 'axios';
@@ -16,6 +16,7 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
 
     const [card, setCard] = useState({})
     const [showCommentSection, setShowCommentSection] = useState(false);
+    const [commentCount, setCommentCount] = useState('');
 
     const [loaded, setLoaded] = useState(false);
     const [bookmarked, setBookmarked] = useState(false);
@@ -32,6 +33,7 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
             .then((res) => {
                 setCard(res.data)
                 setLoaded(true);
+                setCommentCount(res.data.comments.length);
             })
     }, [])
 
@@ -101,7 +103,7 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
                     className='Card__tool'
                     icon={faComment}
                     onClick={onCommentSection}
-                /><sub>0</sub>&nbsp;
+                /><sub>{commentCount}</sub>&nbsp;
                 <FontAwesomeIcon
                     className='Card__tool'
                     icon={faThumbsUp} />&nbsp;
@@ -121,7 +123,9 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
         )
     }
 
-
+    const updateCommentCount = (newCount) => {
+        setCommentCount(newCount);
+    }
 
     return (
         (!loaded) ?
@@ -142,9 +146,13 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
                     />
                     <div className='Card__level'>LVL {card.level}</div>
                 </div>
-                {/* {(showCommentSection) ? <CommentSection
-                    commentIds={commentIds}
-                /> : null} */}
+                {(showCommentSection) ?
+                    <CommentSection
+                        commentIdsProp={card.comments}
+                        parent={{ parentId: cardId, parentType: 'card' }}
+                        updateCommentCount={updateCommentCount}
+                    /> :
+                    null}
             </div>
     )
 }
@@ -153,7 +161,10 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
 
 
 const mapStateToProps = state => ({
+    // username: state.currentUser.currentUser.username,
+    // readCards: state.currentUser.currentUser.readCards,
     currentUser: state.currentUser.currentUser
+
 })
 
 Card.propTypes = {

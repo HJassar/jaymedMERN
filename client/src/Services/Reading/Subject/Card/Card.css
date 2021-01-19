@@ -9,16 +9,16 @@
 }
 
 .Card__button,
-.Card__button:active{
-  background:none;
-  border:none;
-  outline:none;
+.Card__button:active {
+  background: none;
+  border: none;
+  outline: none;
   cursor: pointer;
-  padding:0;
+  padding: 0;
 }
 
 .Card--unread {
-  background: #dfffb6;
+  /* box-shadow: 0 0 5px yellowgreen; */
 }
 
 .Card__tracking-tools {
@@ -31,8 +31,9 @@
   opacity: 0;
 }
 
-.Card__tracking-tool, .Card__tool{
-    cursor: pointer;
+.Card__tracking-tool,
+.Card__tool {
+  cursor: pointer;
 }
 
 .Card__tracking-tool--bookmarked {
@@ -72,15 +73,14 @@
   flex-grow: 1;
 }
 
-.Card__tool{
-    opacity: 1;
+.Card__tool {
+  opacity: 1;
 }
-
 
 .Card__level {
   opacity: 0.4;
 }
 
-.active{
-    background:red;
+.active {
+  background: red;
 }

@@ -11,14 +11,20 @@ const userSchema = new mongoose.Schema(
 		email: { type: String, unique: true, required: true },
 		quizzes: [
 			{
-					type: mongoose.Schema.Types.ObjectId,
-					ref: "Quiz"
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Quiz"
+			}
+		],
+		comments: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Comment"
 			}
 		],
 		readCards: [
 			{
-					type: mongoose.Schema.Types.ObjectId,
-					ref: "Card"
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Card"
 			}
 		],
 		avatar: String,

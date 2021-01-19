@@ -12,7 +12,7 @@ const Reading = () => {
     document.title = 'Reading';
 
     const [subjects, setSubjects] = useState([])
-    const [errorResponse, setErrorResponse] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
 
     useEffect(() => {
         axios
@@ -22,7 +22,7 @@ const Reading = () => {
                 console.log(subjects)
             })
             .catch(err => {
-                setErrorResponse(err.response)
+                setErrorMessage(err.response)
                 console.log(err.response)
             })
     }, [])
@@ -41,10 +41,10 @@ const Reading = () => {
                             </Link>
                         )
                     }) :
-                    (!errorResponse) ?
+                    (!errorMessage) ?
                         'loading'
                         :
-                        <Error errorResponse={errorResponse} />
+                        <Error errorMessage={errorMessage} />
             }
         </>)
 }

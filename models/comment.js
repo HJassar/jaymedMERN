@@ -2,19 +2,25 @@ const mongoose = require("mongoose");
 
 const cardSchema = new mongoose.Schema(
 	{
-		parent: {
-			type: mongoose.Schema.Types.ObjectId
+		commentor: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User"
 		},
-		text: String,
-		rating: Number,
-		subComments: [
+		parent: {
+			parentId: String, 
+			parentType: String
+		},
+		children: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
 				ref: "Comment"
 			}
-		]
+		],
+		status: String,
+		text: String,
+		rating: Number
 	},
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model("Card", cardSchema);
+module.exports = mongoose.model("Comment", cardSchema);

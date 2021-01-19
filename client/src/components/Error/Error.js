@@ -2,13 +2,13 @@ import React from 'react';
 
 import './Error.css'
 
-const Error = ({ errorResponse }) => {
+const Error = ({ errorMessage }) => {
     return (
         <div
             className='Error'
         >
             <h2>
-                {errorResponse.statusText}
+                {errorMessage}
             </h2>
         </div>
     )

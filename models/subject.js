@@ -7,6 +7,10 @@ const subjectSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Subject"
 		},
+		children: [{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Subject"
+		}],
 		cards: [
 			{
 				type: mongoose.Schema.Types.ObjectId,

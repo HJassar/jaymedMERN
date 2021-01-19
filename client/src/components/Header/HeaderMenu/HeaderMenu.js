@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 
+import Login from '../../../Services/Login/Login'
+
 import { connect } from 'react-redux';
 
 import './HeaderMenu.css'
+import axios from 'axios';
 
-const HeaderMenu = ({ currentUser }) => {
+const HeaderMenu = ({ username }) => {
 
     const currentPath = useLocation().pathname.split('/')[1];
 
@@ -17,7 +20,7 @@ const HeaderMenu = ({ currentUser }) => {
                         to='/questions'
                         className={
                             ['Header__menu-link',
-                                (currentPath == 'questions') ?
+                                (currentPath === 'questions') ?
                                     'currentPath' : null
                             ].join(' ')}
                     >
@@ -29,7 +32,7 @@ const HeaderMenu = ({ currentUser }) => {
                         to='/reading'
                         className={
                             ['Header__menu-link',
-                                (currentPath == 'reading') ?
+                                (currentPath === 'reading') ?
                                     'currentPath' : null
                             ].join(' ')}
                     >
@@ -41,7 +44,7 @@ const HeaderMenu = ({ currentUser }) => {
                         to='/residency'
                         className={
                             ['Header__menu-link',
-                                (currentPath == 'residency') ?
+                                (currentPath === 'residency') ?
                                     'currentPath' : null
                             ].join(' ')}
                     >
@@ -53,7 +56,7 @@ const HeaderMenu = ({ currentUser }) => {
                         to='/contribute'
                         className={
                             ['Header__menu-link',
-                                (currentPath == 'contribute') ?
+                                (currentPath === 'contribute') ?
                                     'currentPath' : null
                             ].join(' ')}
                     >
@@ -63,17 +66,22 @@ const HeaderMenu = ({ currentUser }) => {
 
                 <li
                     className='Header__menu-item'>
-                    {(currentUser.username) ?
+                    {(username) ?
                         <>
                             <Link
-                                to='/'
-                                className='Header__menu-link'
+                                to='/dashboard'
+                                className={
+                                    ['Header__menu-link',
+                                        (currentPath.search('dashboard') !== -1) ?
+                                            'currentPath' : null
+                                    ].join(' ')}
                             >
-                                {currentUser.username}
+                                {username}
                             </Link> &nbsp;
-                            < button
+                            <button
+                                className='logout-btn'
                                 onClick={() => {
-                                    localStorage.removeItem('currentUser');
+                                    localStorage.removeItem('token');
                                     window.location.reload();
                                     return (
                                         <Redirect to='/' />
@@ -85,7 +93,7 @@ const HeaderMenu = ({ currentUser }) => {
                         <Link to='/login'
                             className={
                                 ['Header__menu-link',
-                                    (currentPath == 'login') ?
+                                    (currentPath === 'login') ?
                                         'currentPath' : null
                                 ].join(' ')}
                         >Login</Link>
@@ -97,8 +105,10 @@ const HeaderMenu = ({ currentUser }) => {
     )
 }
 
+
+
 const mapStateToProps = state => ({
-    currentUser: state.currentUser.currentUser
+    username: state.currentUser.currentUser.username
 })
 
 export default connect(mapStateToProps)(HeaderMenu);

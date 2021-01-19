@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -6,12 +6,12 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import validator from 'validator';
 
-import { loadAdmin } from '../../store/loadAdmin/loadAdmin.actions';
+import { login } from '../../store/currentUser/currentUser.actions';
 
 import './Register.css';
 
 
-const Register = ({ loadAdmin }) => {
+const Register = ({ login }) => {
     document.title = 'JayMed | Register';
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -51,9 +51,9 @@ const Register = ({ loadAdmin }) => {
                         { username: usernameInput.value }
                     )
                     .then(res => {
+                        usernameInput.disabled = false;
                         if (res.data.username === lastUsernameInput) {
                             setUsernameCheck(res.data.message)
-                            usernameInput.disabled = false;
                             usernameInput.focus();
                             setUsernameValidated(res.data.available)
                         }
@@ -96,7 +96,7 @@ const Register = ({ loadAdmin }) => {
 
 
     return (
-        <>
+        <div className='Register'>
             <h1>Register</h1>
             <form
                 onSubmit={(e) => {
@@ -130,10 +130,15 @@ const Register = ({ loadAdmin }) => {
                     type='text'
                     onInput={(e) => {
 
-                        // need to add alphanumeric and lowercase
-
                         lastUsernameInput = e.target.value;
-                        usernameExistsCheck(e.target);
+
+                        !validator.isAlphanumeric(e.target.value) ?
+                            setUsernameCheck('Not Alphanumeric') :
+                            !validator.isLowercase(e.target.value) ?
+                                setUsernameCheck('Lowercase only') :
+                                !validator.isLength(e.target.value, { min: 6, max: 12 }) ?
+                                    setUsernameCheck('Has to be between 6 and 12 characters') :
+                                    usernameExistsCheck(e.target)
                     }}
                     onChange={(e) => { setUsername(e.target.value) }}
 
@@ -183,18 +188,19 @@ const Register = ({ loadAdmin }) => {
                     }}
                 />
                 <span>{password2Check}</span>
+                <br />
                 <input
                     type="submit"
                     value="Register"
                     disabled={requiredFieldsValidated.includes(false)}
                 />
             </form>
-        </>
+        </div>
     )
 }
 
 Register.propTypes = {
-    loadAdmin: PropTypes.func.isRequired
+    login: PropTypes.func.isRequired
 }
 
-export default connect(null, { loadAdmin })(Register);
+export default connect(null, { login })(Register);

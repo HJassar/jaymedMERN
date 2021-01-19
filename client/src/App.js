@@ -1,5 +1,14 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+
+// Redux
+import { getProfile } from './store/currentUser/currentUser.actions';
+import { connect } from 'react-redux'
+import { PropTypes } from 'prop-types'
+
+
 // Components
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
@@ -22,38 +31,75 @@ import Dashboard from './Dashboard/Dashboard';
 
 import './App.css';
 
-const App = () => {
-  return (
-    <Router>
-      <div className="App">
-        <Header />
-        <main>
-          <Switch>
-            <Route exact path='/' component={Home} />
-            <Route path='/questions' component={Questions} />
+const App = ({ getProfile }) => {
 
-            <Route path='/reading/:subjectId' component={Subject} />
-            <Route path='/reading' component={Reading} />
-            
-            <Route path='/residency' component={Residency} />
-            <Route path='/contribute' component={Contribute} />
-            <Route path='/login' component={Login} />
-            <Route path='/register' component={Register} />
-            <Route path='/dashboard/:action' component={Dashboard} />
-            <Route path='/dashboard' component={Dashboard} />
-            <Route path='/' component={() => {
-              return <>
-                <h1>
-                  Page Not Found
+  const [loaded, setLoaded] = useState(false);
+
+  // get the token from local storage
+  const localToken = localStorage.getItem('token');
+  useEffect(() => {
+    localToken ?
+      axios
+        .get('/users/profile',
+          {
+            headers: {
+              'authorization': localToken
+            }
+          }
+        )
+        .then(res => {
+          getProfile(res.data)
+          setLoaded(true);
+        })
+        .catch(error => {
+          console.log('token expired or something')
+          setLoaded(true)
+        })
+      : setLoaded(true)
+  }, [])
+
+
+
+
+  // const token = 
+  return (
+    // Delay the appearance of the whole website until the user, if any, is loaded. This way you will prevent the website from looking gletchy (having a login button that changes to username+logout)
+    loaded ?
+      <Router>
+        < div className="App" >
+          <Header />
+          <main>
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route path='/questions' component={Questions} />
+
+              <Route path='/reading/:subjectId' component={Subject} />
+              <Route path='/reading' component={Reading} />
+
+              <Route path='/residency' component={Residency} />
+              <Route path='/contribute' component={Contribute} />
+              <Route path='/login' component={Login} />
+              <Route path='/register' component={Register} />
+              <Route path='/dashboard/:action' component={Dashboard} />
+              <Route path='/dashboard' component={Dashboard} />
+              <Route path='/' component={() => {
+                return <>
+                  <h1>
+                    Page Not Found
               </h1>
-              </>
-            }} />
-          </Switch>
-        </main>
-        <Footer />
-      </div>
-    </Router>
-  );
+                </>
+              }} />
+            </Switch>
+          </main>
+          <Footer />
+        </div >
+      </Router >
+      : 'Loading'
+  )
 }
 
-export default App;
+App.propTypes = {
+  getProfile: PropTypes.func.isRequired
+}
+
+export default connect(null, { getProfile })(App);

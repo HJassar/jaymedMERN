@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import loadAdminReducer from './loadAdmin/loadAdmin.reducer'
+import currentUser from './currentUser/currentUser.reducer'
 import thunk from 'redux-thunk'
 
 const middleware = [thunk]
@@ -8,7 +8,7 @@ const initialState = {};
 
 
 const rootReducer = combineReducers({
-    currentUser: loadAdminReducer
+    currentUser: currentUser
 });
 
 export const store = createStore(

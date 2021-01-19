@@ -11,13 +11,10 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 
 
-// Define the routers
-const questionAPI = require('./routes/questions');
-const subjectAPI = require('./routes/subjects');
-const cardAPI = require('./routes/cards');
-const userAPI = require('./routes/users');
-const adminAPI = require('./routes/admin');
-const authAPI = require('./routes/auth');
+
+//CORS
+app.use(cors());
+
 
 // Models
 const Question = require("./models/question");
@@ -50,9 +47,6 @@ if (environment == "dev") {
     });
 }
 
-
-//CORS
-app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -93,10 +87,20 @@ app.use((req, res, next) => {
 });
 
 
+// Define the routers
+const questionAPI = require('./routes/questions');
+const subjectAPI = require('./routes/subjects');
+const cardAPI = require('./routes/cards');
+const commentAPI = require('./routes/comments');
+const userAPI = require('./routes/users');
+const adminAPI = require('./routes/admin');
+const authAPI = require('./routes/auth');
+
 // Creating routes
 app.use('/questions', questionAPI);
 app.use('/subjects', subjectAPI);
 app.use('/cards', cardAPI);
+app.use('/comments', commentAPI);
 app.use('/users', userAPI);
 app.use('/admin', adminAPI);
 app.use('/auth', authAPI)
