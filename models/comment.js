@@ -7,7 +7,7 @@ const cardSchema = new mongoose.Schema(
 			ref: "User"
 		},
 		parent: {
-			parentId: String, 
+			parentId: String,
 			parentType: String
 		},
 		children: [
@@ -16,7 +16,7 @@ const cardSchema = new mongoose.Schema(
 				ref: "Comment"
 			}
 		],
-		status: String,
+		status: { type: String, default: 'public' },
 		text: String,
 		rating: Number
 	},

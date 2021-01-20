@@ -5,16 +5,6 @@
   margin: 100px auto auto;
 }
 
-.Login {
-  top: 0;
-  right: 30px;
-  position: fixed;
-  padding: var(--min-padding);
-  background: var(--primary);
-  border: solid thin white;
-  border-radius: var(--border-radius);
-}
-
 .Login h1 {
   text-align: center;
   font-size: 2em;
@@ -41,6 +31,7 @@
   background: var(--secondary);
   font-size: 1.2rem;
   color: white;
+  margin-top: 1em;
 }
 
 .Login input[type="submit"]:disabled {

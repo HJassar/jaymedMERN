@@ -1,11 +1,11 @@
 .Card {
-  background: var(--surface);
+  background: rgb(225, 225, 225);
   color: var(--on-surface);
   border-radius: var(--border-radius);
   padding: var(--min-padding);
   margin-bottom: 0.5em;
   position: relative;
-  transition: 1s;
+  /* transition: 1s; */
 }
 
 .Card__button,
@@ -18,7 +18,7 @@
 }
 
 .Card--unread {
-  /* box-shadow: 0 0 5px yellowgreen; */
+  background-color: var(--surface);
 }
 
 .Card__tracking-tools {
@@ -27,7 +27,7 @@
   right: 0;
 }
 .Card__tracking-tool {
-  transition: 1s;
+  /* transition: 1s; */
   opacity: 0;
 }
 
@@ -55,7 +55,8 @@
 .Card:hover .Card__tracking-tool--unread {
   opacity: 1;
 }
-.Card:hover .Card__tracking-tool--read {
+.Card:hover .Card__tracking-tool--read,
+.Card:hover .Card__tools {
   opacity: 0.5;
 }
 
@@ -68,7 +69,7 @@
   display: flex;
 }
 .Card__tools {
-  opacity: 0.4;
+  opacity: 0;
   width: fit-content;
   flex-grow: 1;
 }

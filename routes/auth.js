@@ -66,16 +66,22 @@ router.post('/register', async (req, res) => {
             await emailExists(email) ||
             password !== password2
         ) {
-            res.send('Opsie')
+            res.json({ error: 'Something is wrong' })
         } else {
             const newUser = await User.create({ username, email, password: hashed })
 
-            const token = jwt.sign({ username }, AUTH_SECRET, { expiresIn: '30m' });
-            res.send(token)
+            const payload = {
+                id: newUser.id,
+                username: newUser.name,
+                roles: newUser.roles
+            };
+
+            const token = jwt.sign(payload, AUTH_SECRET, { expiresIn: '30m' });
+            res.json({ token: 'Bearer ' + token });
         };
 
     } catch (error) {
-        console.log(error)
+        res.json({ error: error.message})
     }
 })
 
@@ -93,10 +99,11 @@ router.post('/login', async (req, res) => {
 
                 const payload = {
                     id: user.id,
-                    name: user.name
+                    username: user.name,
+                    roles: user.roles
                 };
 
-                const token = jwt.sign(payload, AUTH_SECRET, { expiresIn: '5h' });
+                const token = jwt.sign(payload, AUTH_SECRET, { expiresIn: '30m' });
                 res.json({ token: 'Bearer ' + token });
             } else {
                 return res.status(401).json({ error: 'Username or password incorrect' })
@@ -118,6 +125,27 @@ router.get('/secretplace', passportMW.isAuthenticated, (req, res) => {
 //     const decoded = jwt.verify(token, AUTH_SECRET);
 //     res.send(decoded);
 // })
+
+
+
+
+// // GOOGLE
+// const passport = require('passport')
+
+// router.get('/google',
+//     passport.authenticate('google', {
+//         scope:
+//             ['email', 'profile']
+//     }
+//     ));
+
+// router.get('/google/callback',
+//     passport.authenticate('google', {
+//         successRedirect: '/auth/google/success',
+//         failureRedirect: '/auth/google/failure'
+//     }));
+
+
 
 
 module.exports = router;

@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema(
 				ref: "Comment"
 			}
 		],
+		googleId: String,
 		readCards: [
 			{
 				type: mongoose.Schema.Types.ObjectId,

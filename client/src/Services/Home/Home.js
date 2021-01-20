@@ -3,21 +3,21 @@ import { connect } from 'react-redux'
 
 import './Home.css';
 
-const Home = ({ username }) => {
+const Home = ({ currentUser }) => {
     document.title = 'JayMed';
 
     const reqData = 'requested Data'
 
     return (
         <>
-            <h1>Welcome to JayMed{username ? `, ${username}` : null}</h1>
+            <h1>Welcome to JayMed{currentUser ? `, ${currentUser.username}` : null}</h1>
         </>
     )
 }
 
 
 const mapStateToProps = state => ({
-    username: state.currentUser.username
+    currentUser: state.currentUser.currentUser
 })
 
 export default connect(mapStateToProps)(Home);

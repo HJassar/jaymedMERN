@@ -8,9 +8,10 @@ import { connect } from 'react-redux';
 import './HeaderMenu.css'
 import axios from 'axios';
 
-const HeaderMenu = ({ username }) => {
+const HeaderMenu = ({ currentUser }) => {
 
     const currentPath = useLocation().pathname.split('/')[1];
+    const subjectPath = useLocation();
 
     return (
         <nav className='Header__menu'>
@@ -66,7 +67,7 @@ const HeaderMenu = ({ username }) => {
 
                 <li
                     className='Header__menu-item'>
-                    {(username) ?
+                    {(currentUser) ?
                         <>
                             <Link
                                 to='/dashboard'
@@ -76,7 +77,7 @@ const HeaderMenu = ({ username }) => {
                                             'currentPath' : null
                                     ].join(' ')}
                             >
-                                {username}
+                                {currentUser.username}
                             </Link> &nbsp;
                             <button
                                 className='logout-btn'
@@ -90,7 +91,12 @@ const HeaderMenu = ({ username }) => {
                             > logout</button>
                         </>
                         :
-                        <Link to='/login'
+                        <Link
+                            to={{
+                                pathname: "/login",
+                                state: { from: subjectPath }
+                            }}
+
                             className={
                                 ['Header__menu-link',
                                     (currentPath === 'login') ?
@@ -108,7 +114,7 @@ const HeaderMenu = ({ username }) => {
 
 
 const mapStateToProps = state => ({
-    username: state.currentUser.currentUser.username
+    currentUser: state.currentUser.currentUser
 })
 
 export default connect(mapStateToProps)(HeaderMenu);

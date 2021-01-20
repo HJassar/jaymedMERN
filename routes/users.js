@@ -17,12 +17,12 @@ router.get('/', (req, res) => {
 })
 
 router.get('/profile', passportMW.isAuthenticated, async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, AUTH_SECRET);
-    const currentUser = await User.findById(decoded.id);
+    const currentUser = req.user;
+    console.log(currentUser)
     res.send({
         username: currentUser.username,
-        readCards: ['5fe815ae3bfb4b6e606edbf8','5fe815ae3bfb4b6e606edbf9']
+        readCards: currentUser.readCards,
+        roles: currentUser.roles
     })
 })
 

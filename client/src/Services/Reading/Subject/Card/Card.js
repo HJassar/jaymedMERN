@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import { Redirect, useLocation } from 'react-router-dom'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark, faCircle, faClock, faComment, faEyeSlash, faGift, faHandHolding, faHandHoldingHeart, faHighlighter, faShare, faShareAlt, faStickyNote, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
@@ -12,24 +14,35 @@ import CommentSection from './CommentSection/CommentSection'
 import './Card.css';
 import axios from 'axios';
 
+const localToken = localStorage.getItem('token');
+
+
 const Card = ({ cardId, currentUser, updateReadCards }) => {
+    console.log(currentUser)
+    const subjectPath = useLocation();
 
     const [card, setCard] = useState({})
     const [showCommentSection, setShowCommentSection] = useState(false);
     const [commentCount, setCommentCount] = useState('');
 
     const [loaded, setLoaded] = useState(false);
+    const [redirect, setRedirect] = useState(false);
+
     const [bookmarked, setBookmarked] = useState(false);
 
-    const [readCards, setReadCards] = useState(currentUser.readCards || [])
+    const [readCards, setReadCards] = useState(currentUser ? currentUser.readCards : [])
     const [read, setRead] = useState(
+        currentUser &&
         currentUser.readCards &&
         currentUser.readCards.includes(cardId)
     );
 
     useEffect(() => {
+        console.log(localToken)
         axios
-            .get(`/cards/${cardId}`)
+            .get(`/cards/${cardId}`,
+                { headers: { 'authorization': localToken } }
+            )
             .then((res) => {
                 setCard(res.data)
                 setLoaded(true);
@@ -43,8 +56,13 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
         // onBookMark();
     }
     const toggleRead = () => {
+        if (localToken === null) {
+            return setRedirect(true)
+        }
         setRead(!read);
-        axios.get(`/cards/${cardId}?action=read`)
+        axios.get(`/cards/${cardId}?action=read`,
+            { headers: { 'authorization': localToken } }
+        )
 
         const sup = [...currentUser.readCards];
         (sup.includes(cardId)) ?
@@ -128,32 +146,46 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
     }
 
     return (
-        (!loaded) ?
-            <div className='Card'>
-                loading...
-            </div>
+        redirect ?
+            <Redirect push to={
+                {
+                    pathname: "/login",
+                    state: { from: subjectPath }
+                }
+            }
+
+            />
             :
-            <div className={
-                ['Card', read ? null : 'Card--unread'].join(' ')
-            }>
-                <TrackingTools />
-                {card._id}
-                <h2>{card.title}</h2>
-                <p dangerouslySetInnerHTML={{ __html: card.content }} />
-                <div className='Card__lower-bar' >
-                    <Tools
-                        onCommentSection={toggleCommentSection}
-                    />
-                    <div className='Card__level'>LVL {card.level}</div>
-                </div>
-                {(showCommentSection) ?
-                    <CommentSection
-                        commentIdsProp={card.comments}
-                        parent={{ parentId: cardId, parentType: 'card' }}
-                        updateCommentCount={updateCommentCount}
-                    /> :
-                    null}
+            (!loaded) ?
+                <div className='Card'>
+                    loading...
             </div>
+                :
+                <div className={
+                    ['Card', read ? null : 'Card--unread'].join(' ')
+                }>
+                    <TrackingTools />
+                    <h2
+                        style={{ display: 'inline' }}
+                    >{card.title}</h2>
+                    {currentUser && currentUser.roles.includes('editor') ?
+            <button style={{ display: 'inline' }}>edit</button> : null}
+                    <p dangerouslySetInnerHTML={{ __html: card.content }} />
+                    <div className='Card__lower-bar' >
+                        <Tools
+                            onCommentSection={toggleCommentSection}
+                        />
+                        <div className='Card__level'>LVL {card.level}</div>
+                    </div>
+                    {(showCommentSection) ?
+                        <CommentSection
+                            commentIdsProp={card.comments}
+                            parent={{ parentId: cardId, parentType: 'card' }}
+                            updateCommentCount={updateCommentCount}
+                        />
+                        :
+                        null}
+                </div>
     )
 }
 

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { Link } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -11,16 +13,19 @@ import './Login.css';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-const Login = ({ login, currentUsername }) => {
+const Login = ({ location, login, currentUser }) => {
     document.title = 'JayMed | Login';
+
+    const fromPath = location.state ? location.state.from.pathname : '/'
+    console.log(fromPath)
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(undefined);
-    const [loggedIn, setLoggedIn] = useState(false);
+    // const [loggedIn, setLoggedIn] = useState(false);
 
     return (
-        loggedIn || currentUsername ?
+        currentUser ?
             <Redirect to='/' />
             :
             <section className='Login'>
@@ -33,9 +38,9 @@ const Login = ({ login, currentUsername }) => {
                             .post('/auth/login',
                                 { username, password })
                             .then(res => {
-                                login(res.data.token)
+                                // login(res.data.token)
                                 localStorage.setItem('token', res.data.token);
-                                window.location.reload();
+                                window.location.replace(fromPath);
                                 // setLoggedIn(true)
                             })
                             .catch(error => {
@@ -65,6 +70,10 @@ const Login = ({ login, currentUsername }) => {
                         disabled={(username === '' || password === '')}
                     />
                 </form>
+
+                <br /> Don\'t Have an account yet? <Link to='/register'>Register here</Link>
+
+
                 {errorMessage !== undefined ?
                     <Error errorMessage={errorMessage} />
                     : null
@@ -74,7 +83,7 @@ const Login = ({ login, currentUsername }) => {
 }
 
 const mapStateToProps = state => ({
-    currentUsername: state.currentUser.currentUser.username
+    currentUser: state.currentUser.currentUser
 })
 
 Login.propTypes = {
