@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { Redirect, useLocation } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark, faCircle, faClock, faComment, faEyeSlash, faGift, faHandHolding, faHandHoldingHeart, faHighlighter, faShare, faShareAlt, faStickyNote, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark, faCircle, faClock, faComment, faEyeSlash, faHandHoldingHeart, faHighlighter, faShareAlt, faStickyNote, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
 import { updateReadCards } from '../../../../store/currentUser/currentUser.actions'
 
@@ -18,7 +18,6 @@ const localToken = localStorage.getItem('token');
 
 
 const Card = ({ cardId, currentUser, updateReadCards }) => {
-    console.log(currentUser)
     const subjectPath = useLocation();
 
     const [card, setCard] = useState({})
@@ -38,7 +37,6 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
     );
 
     useEffect(() => {
-        console.log(localToken)
         axios
             .get(`/cards/${cardId}`,
                 { headers: { 'authorization': localToken } }
@@ -51,7 +49,7 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
             .catch(error => {
                 console.log(error)
             })
-    }, [])
+    }, [cardId])
 
     // Togglers
     const toggleBookmark = () => {
@@ -67,7 +65,7 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
             { headers: { 'authorization': localToken } }
         )
 
-        const sup = [...currentUser.readCards];
+        const sup = [...readCards];
         (sup.includes(cardId)) ?
             sup.splice(sup.indexOf(cardId), 1) :
             sup.push(cardId);
@@ -164,9 +162,12 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
                     loading...
             </div>
                 :
-                <div className={
-                    ['Card', read ? null : 'Card--unread'].join(' ')
-                }>
+                <div
+                    className={
+                        ['Card', read ? null : 'Card--unread'].join(' ')
+                    }
+                    key={card._id}
+                >
                     <TrackingTools />
                     <h2
                         style={{ display: 'inline' }}

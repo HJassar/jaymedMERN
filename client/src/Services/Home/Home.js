@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 
 import './Home.css';
@@ -6,15 +5,12 @@ import './Home.css';
 const Home = ({ currentUser }) => {
     document.title = 'JayMed';
 
-    const reqData = 'requested Data'
-
     return (
         <>
             <h1>Welcome to JayMed{currentUser ? `, ${currentUser.username}` : null}</h1>
         </>
     )
 }
-
 
 const mapStateToProps = state => ({
     currentUser: state.currentUser.currentUser

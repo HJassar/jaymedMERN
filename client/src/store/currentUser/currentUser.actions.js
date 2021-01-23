@@ -23,7 +23,6 @@ export const login = token => dispatch => {
 
 
 export const getProfile = (username) => dispatch => {
-    console.log(username)
     dispatch({
         type: actionTypes.GET_PROFILE,
         payload: username

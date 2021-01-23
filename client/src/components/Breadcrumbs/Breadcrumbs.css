@@ -1,4 +1,7 @@
-.Breadcrumbs__link{
-    color: var(--on-background);
-    text-decoration: none;
+.Breadcrumbs {
+  margin-bottom: 1em;
+}
+.Breadcrumbs__link {
+  color: var(--on-background);
+  text-decoration: none;
 }

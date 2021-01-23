@@ -5,17 +5,13 @@ import { connect } from 'react-redux'
 
 import Card from './Card/Card'
 
-const Subject = ({ match
-    // ,
-    // currentUser
-}) => {
+const Subject = ({ match }) => {
 
     const subjectId = match.params.subjectId;
 
     const [title, setTitle] = useState('')
     const [loaded, setLoaded] = useState(false);
     const [cardIds, setCardIds] = useState([])
-    // const [readCards, setReadCards] = useState(currentUser.readCards || [])
 
     useEffect(() => {
         axios
@@ -23,20 +19,9 @@ const Subject = ({ match
             .then((res) => {
                 setTitle(res.data.title)
                 setCardIds(res.data.cards)
-                // if (currentUser.length > 0) {
-                //     // temporary axios call, currentUser Reducer needs to be updated frequently
-                //     axios
-                //         .get(`/users/${currentUser._id}`)
-                //         .then(res => {
-                //             setReadCards(res.data.readCards);
-                //             setLoaded(true);
-                //         })
-                // } else {
-                    setLoaded(true)
-                // }
+                setLoaded(true)
             });
-
-    }, [])
+    }, [subjectId])
 
     return (
         (!loaded) ?
@@ -52,7 +37,6 @@ const Subject = ({ match
                     return (
                         <Card
                             cardId={cId}
-                            // readCards={readCards}
                         />)
                 })}
             </>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { createElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './CommentSection.css';
 
@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
 
 const Comment = connect(mapStateToProps)(({ textCommentProp, commentorProp, currentUser, commentId }) => {
 
-    const [children, setChildren] = useState([])
+    
     const [commentText, setCommentText] = useState(
         textCommentProp !== undefined ? textCommentProp : 'Loading'
     );
@@ -35,7 +35,7 @@ const Comment = connect(mapStateToProps)(({ textCommentProp, commentorProp, curr
             )
             .then(res => {
                 if (res.data.status !== 'hidden') {
-                    setChildren(res.data.children)
+                    // setChildren(res.data.children)
                     setCommentText(res.data.text);
                     setCommentor(res.data.commentor.username);
                     setLoaded(true);
@@ -119,7 +119,7 @@ const Comments = ({ commentIds }) => {
 
 const CommentSection = ({ commentIdsProp, parent, updateCommentCount }) => {
     const [newComment, setNewComment] = useState('');
-    const [commentIds, setCommentIds] = useState(commentIdsProp);
+    const commentIds = commentIdsProp;
     const [sendingComment, setSendingComment] = useState(false);
     const [commentCount, setCommentCount] = useState(commentIdsProp.length)
 

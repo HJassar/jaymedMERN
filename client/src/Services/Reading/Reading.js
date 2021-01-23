@@ -19,13 +19,11 @@ const Reading = () => {
             .get('/subjects')
             .then(res => {
                 setSubjects(res.data);
-                console.log(subjects)
             })
             .catch(err => {
                 setErrorMessage(err.response)
-                console.log(err.response)
             })
-    }, [])
+    }, [subjects])
 
     return (
         <>
@@ -36,8 +34,22 @@ const Reading = () => {
                 (subjects.length > 0) ?
                     subjects.map(subject => {
                         return (
-                            <Link to={`/reading/${subject._id}`}>
-                                {subject.title}
+                            <Link to={`/reading/${subject._id}`}
+                            style={{
+                                textDecoration:'none'
+                                }}>
+                                <div className='Card'
+                                style={{
+                                    maxWidth: '480px',
+                                    marginLeft: 'auto',
+                                    marginRight: 'auto',
+                                    textAlign: 'center'
+                                }}
+                                >
+                                    <h2>
+                                        {subject.title}
+                                    </h2>
+                                </div>
                             </Link>
                         )
                     }) :

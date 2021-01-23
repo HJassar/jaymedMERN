@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 // Redux
 import { getProfile } from './store/currentUser/currentUser.actions';
@@ -25,11 +25,49 @@ import Contribute from './Services/Contribute/Contribute'
 import Login from './Services/Login/Login'
 import Register from './Services/Register/Register'
 
+import CELLS from 'vanta/dist/vanta.cells.min';
 
 // Dashboard
 import Dashboard from './Dashboard/Dashboard';
 
 import './App.css';
+
+const MyComponent = (props) => {
+  const [vantaEffect, setVantaEffect] = useState(0)
+  const myRef = useRef(null)
+  useEffect(() => {
+    if (!vantaEffect) {
+      setVantaEffect(CELLS({
+        el: myRef.current,
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        color1: 0x253556,
+        color2: 0x2e2e2e,
+        size: 0.80,
+        speed: 4.00
+      }))
+    }
+    return () => {
+      if (vantaEffect) vantaEffect.destroy()
+    }
+  }, [vantaEffect])
+  return <div ref={myRef}
+    style={{
+      opacity: '.3',
+      height: '100vh',
+      width: '100vw',
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      zIndex: '-1'
+    }}>
+  </div>
+}
+
 
 const App = ({ getProfile }) => {
 
@@ -56,7 +94,7 @@ const App = ({ getProfile }) => {
           setLoaded(true)
         })
       : setLoaded(true)
-  }, [])
+  }, [localToken, getProfile])
 
 
 
@@ -68,6 +106,7 @@ const App = ({ getProfile }) => {
       <Router>
         < div className="App" >
           <Header />
+          <MyComponent />
           <main>
             <Switch>
               <Route exact path='/' component={Home} />

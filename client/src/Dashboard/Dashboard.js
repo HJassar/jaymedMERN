@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Link, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -8,11 +8,11 @@ import Breadcrumbs from '../components/Breadcrumbs/Breadcrumbs';
 const Dashboard = ({ match, username }) => {
     const action = match.params.action;
 
-    const DOM = (action == 'stats') ?
+    const DOM = (action === 'stats') ?
         <h1>Welcome to stats page</h1>
-        : (action == 'users') ?
+        : (action === 'users') ?
             <h1>Users Page</h1>
-            : (action == 'home') ?
+            : (action === 'home') ?
                 <>
                     <h1>Welcome to the Dashboard</h1>
                     <Link to='users'>Users</Link>

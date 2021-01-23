@@ -1,12 +1,8 @@
 import React from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-
-import Login from '../../../Services/Login/Login'
-
 import { connect } from 'react-redux';
 
 import './HeaderMenu.css'
-import axios from 'axios';
 
 const HeaderMenu = ({ currentUser }) => {
 

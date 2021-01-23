@@ -12,7 +12,7 @@ const Breadcrumbs = ({ breadcrumbs }) => {
             return (
                 <>
                     {(index < array.length - 1) ?
-                        <><a href='#'>{breadcrumb}</a> &gt;</>
+                        <><a href='/'>{breadcrumb}</a> &gt;</>
                         :
                         <strong>{breadcrumb}</strong>
                     }

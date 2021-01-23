@@ -5,11 +5,14 @@ import './Logo.css'
 
 const Logo = () => {
     return (
-        <div className='Logo'>
+        <div
+            className='Logo'
+        >
             <Link
                 to='/'
                 className='Logo__link'>
-                <strong style={{fontSize:'1.5em'}}>JayMed</strong>
+                <img src="/logo.png" alt=""
+                />
             </Link>
         </div>
     )
