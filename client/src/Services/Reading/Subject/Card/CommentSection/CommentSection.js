@@ -63,7 +63,7 @@ const Comment = connect(mapStateToProps)(({ textCommentProp, commentorProp, curr
                     </>
                     :
                     <><strong>{commentor}</strong> : { commentText}
-                        {currentUser.username === commentor ?
+                        {currentUser && currentUser.username === commentor ?
                             < button
                                 className='Card__button'
                                 style={{

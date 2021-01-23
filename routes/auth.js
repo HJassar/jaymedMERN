@@ -81,7 +81,7 @@ router.post('/register', async (req, res) => {
         };
 
     } catch (error) {
-        res.json({ error: error.message})
+        res.json({ error: error.message })
     }
 })
 
@@ -106,7 +106,7 @@ router.post('/login', async (req, res) => {
                 const token = jwt.sign(payload, AUTH_SECRET, { expiresIn: '30m' });
                 res.json({ token: 'Bearer ' + token });
             } else {
-                return res.status(401).json({ error: 'Username or password incorrect' })
+                return res.status(401).send('Username or password incorrect')
             }
         })
 

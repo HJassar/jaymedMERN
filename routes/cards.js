@@ -22,7 +22,6 @@ router.get('/:cardId',
             const token = req.headers.authorization != 'null' ? req.headers.authorization.split(' ')[1] : undefined;
             const decoded = token ? jwt.verify(token, AUTH_SECRET) : undefined;
 
-
             const cardId = req.params.cardId;
             const action = req.query.action;
 
@@ -49,7 +48,7 @@ router.get('/:cardId',
                 })
             }
         } catch (error) {
-            console.log(error.message)
+            console.log(error.name)
         }
     })
 

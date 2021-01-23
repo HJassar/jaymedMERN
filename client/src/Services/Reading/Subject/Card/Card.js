@@ -48,6 +48,9 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
                 setLoaded(true);
                 setCommentCount(res.data.comments.length);
             })
+            .catch(error => {
+                console.log(error)
+            })
     }, [])
 
     // Togglers
@@ -169,7 +172,7 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
                         style={{ display: 'inline' }}
                     >{card.title}</h2>
                     {currentUser && currentUser.roles.includes('editor') ?
-            <button style={{ display: 'inline' }}>edit</button> : null}
+                        <button style={{ display: 'inline' }}>edit</button> : null}
                     <p dangerouslySetInnerHTML={{ __html: card.content }} />
                     <div className='Card__lower-bar' >
                         <Tools

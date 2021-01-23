@@ -44,7 +44,7 @@ const Login = ({ location, login, currentUser }) => {
                                 // setLoggedIn(true)
                             })
                             .catch(error => {
-                                setErrorMessage(error.response.data.error)
+                                setErrorMessage(error.response.statusText)
                                 setTimeout(() => {
                                     setErrorMessage(undefined)
                                 }, 3000);

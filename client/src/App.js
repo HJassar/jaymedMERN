@@ -52,7 +52,7 @@ const App = ({ getProfile }) => {
           setLoaded(true);
         })
         .catch(error => {
-          console.log('token expired or something')
+          if (error.response.status === 401) localStorage.removeItem('token')
           setLoaded(true)
         })
       : setLoaded(true)
