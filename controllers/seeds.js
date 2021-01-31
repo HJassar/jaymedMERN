@@ -79,12 +79,12 @@ const createAdmin = async () => {
             }
 
             if (index == array.length - 1) {
-                User.create({
-                    username: 'admin',
-                    readCards: adminCards
-                }, (err, admin) => {
-                    console.log(admin.username + ' has been created!')
+                const myUser = new User({
+                    username: 'user' + Math.ceil(100 + Math.random() * 5000),
+                    readCards: adminCards,
+                    email: 'user' + Math.ceil(100 + Math.random() * 5000) + '@jaymed.com'
                 })
+                myUser.save()
             }
         })
     })
@@ -92,9 +92,9 @@ const createAdmin = async () => {
 
 }
 
-
 const seedSubjectsAndCards = () => {
     Subject.countDocuments({}, (err, subjectCount) => {
+        if (err) return err;
         if (subjectCount == 0) {
             cardSeeding(() => {
                 createAdmin();

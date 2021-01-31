@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+    require("dotenv").config();
+}
+
 const express = require("express");
 const app = express();
 const expressSession = require("express-session");
@@ -32,7 +36,6 @@ seeds();
 
 // Special for Dev Environment
 if (environment == "dev") {
-    require("dotenv").config();
     // Simulate loading
     const slowness = process.env.SLOWNESS || 0;
     let loadTime = slowness * 1000 * Math.random();
