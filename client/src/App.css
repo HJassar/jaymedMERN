@@ -2,9 +2,11 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  min-height: 100vh;
-  max-width: 1024px;
+  min-height: calc(100vh - 4px);
+  max-width: 1200px;
+  padding: 0 var(--min-padding);
   color: var(--on-background);
+  border: solid 2px rgba(255, 255, 255, 0.3);
 }
 
 main {
@@ -12,15 +14,24 @@ main {
   padding: var(--min-padding);
 }
 
-h1{
+h1 {
   margin-top: 0.2em;
 }
 
-p,h2, h3{
+p,
+h2,
+h3 {
   margin: 0 0 0.2em 0;
 }
 
 /* modifiers */
-.inactive{
-  opacity:0.3;
+.inactive {
+  opacity: 0.3;
+}
+
+/* Responsive */
+@media only screen and (max-width: 768px) {
+  .App {
+    background: red;
+  }
 }

@@ -25,7 +25,7 @@ import Contribute from './Services/Contribute/Contribute'
 import Login from './Services/Login/Login'
 import Register from './Services/Register/Register'
 
-import CELLS from 'vanta/dist/vanta.cells.min';
+// import CELLS from 'vanta/dist/vanta.cells.min';
 
 // Dashboard
 import Dashboard from './Dashboard/Dashboard';
@@ -33,7 +33,7 @@ import Dashboard from './Dashboard/Dashboard';
 import './App.css';
 
 const MyComponent = (props) => {
-  const [vantaEffect, setVantaEffect] = useState(0)
+  // const [vantaEffect, setVantaEffect] = useState(0)
   const myRef = useRef(null)
   // useEffect(() => {
   //   if (!vantaEffect) {
