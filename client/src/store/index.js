@@ -6,15 +6,18 @@ const middleware = [thunk]
 
 const initialState = {};
 
+const composeEnhancers = window.REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
 
 const rootReducer = combineReducers({
     currentUser: currentUser
 });
 
-export const store = createStore(
-    rootReducer,
-    initialState,
-    compose(applyMiddleware(...middleware),
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    )
+const enhancer = composeEnhancers(applyMiddleware(...middleware));
+
+const store = createStore(
+rootReducer,
+initialState,
+enhancer
 );
+
+export {store};
