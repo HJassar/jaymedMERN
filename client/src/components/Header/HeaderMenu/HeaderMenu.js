@@ -8,7 +8,7 @@ const HeaderMenu = ({ currentUser }) => {
 
     const currentPath = useLocation().pathname.split('/')[1];
     const subjectPath = useLocation();
-
+    console.log('*********',currentUser)
     return (
         <nav className='Header__menu'>
             <ul className='Header__menu-list'>
@@ -63,7 +63,7 @@ const HeaderMenu = ({ currentUser }) => {
 
                 <li
                     className='Header__menu-item'>
-                    {(currentUser) ?
+                    {(currentUser.username) ?
                         <>
                             <Link
                                 to='/dashboard'
@@ -110,7 +110,7 @@ const HeaderMenu = ({ currentUser }) => {
 
 
 const mapStateToProps = state => ({
-    currentUser: state.currentUser.currentUser
+    currentUser: state.currentUser
 })
 
 export default connect(mapStateToProps)(HeaderMenu);

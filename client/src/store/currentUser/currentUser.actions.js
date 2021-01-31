@@ -29,12 +29,18 @@ export const getProfile = (username) => dispatch => {
     })
 }
 
-export const updateReadCards = (newReadCards) => dispatch => {
-    console.log(newReadCards)
-
+export const pushCardToReadCardsState = (cardId) => dispatch => {
+    console.log(cardId)
     dispatch({
-        type: actionTypes.UPDATE_READ_CARDS,
-        payload: newReadCards
+        type: actionTypes.PUSH_TO_READ_CARDS,
+        payload: cardId
     })
 }
 
+export const popCardFromReadCardsState = (cardId) => dispatch => {
+    console.log(cardId)
+    dispatch({
+        type: actionTypes.POP_FROM_READ_CARDS,
+        payload: cardId
+    })
+}

@@ -35,26 +35,26 @@ import './App.css';
 const MyComponent = (props) => {
   const [vantaEffect, setVantaEffect] = useState(0)
   const myRef = useRef(null)
-  useEffect(() => {
-    if (!vantaEffect) {
-      setVantaEffect(CELLS({
-        el: myRef.current,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.00,
-        color1: 0x253556,
-        color2: 0x2e2e2e,
-        size: 0.80,
-        speed: 4.00
-      }))
-    }
-    return () => {
-      if (vantaEffect) vantaEffect.destroy()
-    }
-  }, [vantaEffect])
+  // useEffect(() => {
+  //   if (!vantaEffect) {
+  //     setVantaEffect(CELLS({
+  //       el: myRef.current,
+  //       mouseControls: true,
+  //       touchControls: true,
+  //       gyroControls: false,
+  //       minHeight: 200.00,
+  //       minWidth: 200.00,
+  //       scale: 1.00,
+  //       color1: 0x253556,
+  //       color2: 0x2e2e2e,
+  //       size: 0.80,
+  //       speed: 4.00
+  //     }))
+  //   }
+  //   return () => {
+  //     if (vantaEffect) vantaEffect.destroy()
+  //   }
+  // }, [vantaEffect])
   return <div ref={myRef}
     style={{
       opacity: '.3',
@@ -90,7 +90,7 @@ const App = ({ getProfile }) => {
           setLoaded(true);
         })
         .catch(error => {
-          if (error.response.status === 401) localStorage.removeItem('token')
+          if (error.response && error.response.status === 401) localStorage.removeItem('token')
           setLoaded(true)
         })
       : setLoaded(true)

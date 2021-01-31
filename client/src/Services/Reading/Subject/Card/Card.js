@@ -7,7 +7,7 @@ import { Redirect, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark, faCircle, faClock, faComment, faEyeSlash, faHandHoldingHeart, faHighlighter, faShareAlt, faStickyNote, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
-import { updateReadCards } from '../../../../store/currentUser/currentUser.actions'
+import { pushCardToReadCardsState, popCardFromReadCardsState } from '../../../../store/currentUser/currentUser.actions'
 
 import CommentSection from './CommentSection/CommentSection'
 
@@ -17,7 +17,7 @@ import axios from 'axios';
 const localToken = localStorage.getItem('token');
 
 
-const Card = ({ cardId, currentUser, updateReadCards }) => {
+const Card = ({ cardId, currentUser, pushCardToReadCardsState, popCardFromReadCardsState }) => {
     const subjectPath = useLocation();
 
     const [card, setCard] = useState({})
@@ -29,10 +29,8 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
 
     const [bookmarked, setBookmarked] = useState(false);
 
-    const [readCards, setReadCards] = useState(currentUser ? currentUser.readCards : [])
+    // const [readCards, setReadCards] = useState(currentUser ? currentUser.readCards : [])
     const [read, setRead] = useState(
-        currentUser &&
-        currentUser.readCards &&
         currentUser.readCards.includes(cardId)
     );
 
@@ -65,13 +63,13 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
             { headers: { 'authorization': localToken } }
         )
 
-        const sup = [...readCards];
-        (sup.includes(cardId)) ?
-            sup.splice(sup.indexOf(cardId), 1) :
-            sup.push(cardId);
-        setReadCards(sup)
 
-        updateReadCards(sup)
+        currentUser.readCards.includes(cardId) ?
+            popCardFromReadCardsState(cardId) :
+            pushCardToReadCardsState(cardId)
+
+        // setReadCards(sup)
+
     }
 
     const toggleCommentSection = () => {
@@ -172,7 +170,7 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
                     <h2
                         style={{ display: 'inline' }}
                     >{card.title}</h2>
-                    {currentUser && currentUser.roles.includes('editor') ?
+                    {currentUser.roles.includes('editor') ?
                         <button style={{ display: 'inline' }}>edit</button> : null}
                     <p dangerouslySetInnerHTML={{ __html: card.content }} />
                     <div className='Card__lower-bar' >
@@ -199,15 +197,16 @@ const Card = ({ cardId, currentUser, updateReadCards }) => {
 const mapStateToProps = state => ({
     // username: state.currentUser.currentUser.username,
     // readCards: state.currentUser.currentUser.readCards,
-    currentUser: state.currentUser.currentUser
+    currentUser: state.currentUser
 
 })
 
 Card.propTypes = {
-    updateReadCards: PropTypes.func.isRequired
+    pushCardToReadCardsState: PropTypes.func.isRequired,
+    popCardFromReadCardsState: PropTypes.func.isRequired
 }
 
 export default connect(
     mapStateToProps,
-    { updateReadCards }
+    { pushCardToReadCardsState, popCardFromReadCardsState }
 )(Card);
